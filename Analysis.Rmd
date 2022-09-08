@@ -29,6 +29,7 @@ library(lubridate)
 library(lmerTest)
 library(RColorBrewer)
 library(colorRamps)
+library(cowplot)
 library(tidyverse)
 
 # Create custom ggplot theme
@@ -227,9 +228,13 @@ July.loss.plot<-ggplot(data=July2018_mean, aes(x=Days, y=mean, group = Treatment
 
 Count_D5<-read.csv("july2018 zoox counts day 19.csv")
 Count_D5$Treatment<-as.factor(Count_D5$Treatment)
+Count_D5$Treatment <- factor(Count_D5$Treatment, levels=c('Cool', 'Ambient', 'Warm', 'Light'))
+
 
 Count_D20<-read.csv("june 2018 cell counts day 20.csv")
 Count_D20$Treatment<-as.factor(Count_D20$Treatment)
+
+Count_D20$Treatment <- factor(Count_D20$Treatment, levels=c('Ambient', 'Warm', 'Hot', 'Hotest'))
 
 #june
 june.zoox.plot<-ggplot(Count_D20, aes(x=Treatment, y=Cell.counts, fill=Treatment)) +
@@ -258,5 +263,13 @@ july.zoox.plot<-ggplot(Count_D5_mean, aes(x=Treatment, y=mean, fill=Treatment)) 
   scale_fill_manual(values=c("blue", "navy","orange","magenta"))+
     ylim(0, 3000) + #set Y limits
   theme_minimal();july.zoox.plot
+```
+
+Plots together
+```{r}
+
+plot_grid(June.loss.plot,june.zoox.plot, labels = c('A', 'B'), label_size = 12, align="h")
+
+
 ```
 
