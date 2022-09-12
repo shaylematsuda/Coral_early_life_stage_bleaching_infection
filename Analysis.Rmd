@@ -72,7 +72,7 @@ July2018$Num.Larv<-as.numeric(July2018$Num.Larv)
 #June 2018 ####
 
 #mean
-June2018_mean <- ddply(June2018, c( "Treatment", "Days"), summarise, #summarize cell counts
+June2018_mean <- plyr::ddply(June2018, c( "Treatment", "Days"), summarise, #summarize cell counts
                  N    = length(Num.Larv[!is.na(Num.Larv)]), #calculate the length of the data frame, excluding NA’s *this part is important*
                  mean = mean(Num.Larv, na.rm=TRUE), #calculate mean of response variable, removing NA's
                  sd   = sd(Num.Larv, na.rm=TRUE), #calculate standard deviation
@@ -81,12 +81,15 @@ June2018_mean <- ddply(June2018, c( "Treatment", "Days"), summarise, #summarize 
 )
 June2018_mean
 
+#June2018_mean<-subset(June2018_mean, !Days=="1")
+
+
 plot<-ggplot(data=June2018_mean, aes(x=Days, y=mean, group = Treatment, color=Treatment)) +
   geom_errorbar(aes(ymin=mean-se, ymax=mean+se),
                 width=0.1, show.legend = F)+
   geom_point(aes(color=Treatment), size=4, show.legend = T)+
   geom_line(aes(color=Treatment), linetype=1, show.legend = F)+
-  scale_color_manual(values=c("blue", "forestgreen","pink","red"))+
+  scale_color_manual(values=c("blue", "pink","red","maroon"))+
   xlab("") + #Label the X Axis
   #ylim(0, 11) + #set Y limits
   theme_bw() + #Set the background color
@@ -112,7 +115,7 @@ plot<-ggplot(data=June2018_mean, aes(x=Days, y=mean, group = Treatment, color=Tr
 June2018$percent.left<-1-((1093-June2018$Num.Larv)/1093)
 
 #mean
-June2018_mean <- ddply(June2018, c( "Treatment", "Days"), summarise, #summarize cell counts
+June2018_mean <-plyr::ddply(June2018, c( "Treatment", "Days"), summarise, #summarize cell counts
                  N    = length(percent.left[!is.na(percent.left)]), #calculate the length of the data frame, excluding NA’s *this part is important*
                  mean = mean(percent.left, na.rm=TRUE), #calculate mean of response variable, removing NA's
                  sd   = sd(percent.left, na.rm=TRUE), #calculate standard deviation
@@ -121,14 +124,16 @@ June2018_mean <- ddply(June2018, c( "Treatment", "Days"), summarise, #summarize 
 )
 June2018_mean
 
+
 June.loss.plot<-ggplot(data=June2018_mean, aes(x=Days, y=mean, group = Treatment, color=Treatment)) +
   geom_errorbar(aes(ymin=mean-se, ymax=mean+se),
                 width=0.1, show.legend = F)+
-  geom_point(aes(color=Treatment), size=4, show.legend = T)+
+  geom_point(aes(color=Treatment), size=4, show.legend = F)+
   geom_line(aes(color=Treatment), linetype=1, show.legend = F)+
-  scale_color_manual(values=c("blue", "navy","orange","magenta"))+
+  scale_color_manual(values=c("blue", "pink","red","maroon"))+
   xlab("") + #Label the X Axis
-  #ylim(0, 11) + #set Y limits
+  ylim(0, 1) + #set Y limits
+  xlim(0, 30) + #set Y limits
   theme_bw() + #Set the background color
   theme(axis.line = element_line(color = 'black'), #Set the axes color
         axis.title=element_text(size=14,face="bold"), #Set axis format
@@ -142,7 +147,8 @@ June.loss.plot<-ggplot(data=June2018_mean, aes(x=Days, y=mean, group = Treatment
         panel.grid.minor = element_blank(),
         panel.background = element_rect(colour = "black", size=1))+
         theme(aspect.ratio=1)+
-  ylab("Percent alive") +
+  ylab("Percent surviroship") +
+    xlab("Days") +
   ggtitle("June 2018 Mortality")+
   theme(plot.title = element_text(size=20, face = "italic"));June.loss.plot
 
@@ -158,14 +164,18 @@ July2018_mean <- ddply(July2018, c( "Treatment", "Days"), summarise, #summarize 
 )
 July2018_mean
 
+#July2018_mean<-subset(July2018_mean, !Days=="1")
+
+
 plot<-ggplot(data=July2018_mean, aes(x=Days, y=mean, group = Treatment, color=Treatment)) +
   geom_errorbar(aes(ymin=mean-se, ymax=mean+se),
                 width=0.1, show.legend = F)+
-  geom_point(aes(color=Treatment), size=4, show.legend = T)+
   geom_line(aes(color=Treatment), linetype=1, show.legend = F)+
+    geom_point(aes(color=Treatment), size=4, show.legend = T)+
   scale_color_manual(values=c("blue", "navy","orange","magenta"))+
   xlab("") + #Label the X Axis
-  #ylim(0, 11) + #set Y limits
+  ylim(0, 1) + #set Y limits
+  xlim(0, 20) + #set Y limits
   theme_bw() + #Set the background color
   theme(axis.line = element_line(color = 'black'), #Set the axes color
         axis.title=element_text(size=14,face="bold"), #Set axis format
@@ -188,7 +198,7 @@ plot<-ggplot(data=July2018_mean, aes(x=Days, y=mean, group = Treatment, color=Tr
 July2018$percent.left<-1-((2600-July2018$Num.Larv)/2600)
 
 #mean
-July2018_mean <- ddply(July2018, c( "Treatment", "Days"), summarise, #summarize cell counts
+July2018_mean <- plyr::ddply(July2018, c( "Treatment", "Days"), summarise, #summarize cell counts
                  N    = length(percent.left[!is.na(percent.left)]), #calculate the length of the data frame, excluding NA’s *this part is important*
                  mean = mean(percent.left, na.rm=TRUE), #calculate mean of response variable, removing NA's
                  sd   = sd(percent.left, na.rm=TRUE), #calculate standard deviation
@@ -197,14 +207,18 @@ July2018_mean <- ddply(July2018, c( "Treatment", "Days"), summarise, #summarize 
 )
 July2018_mean
 
+#July2018_mean<-subset(July2018_mean, !Days=="1")
+
 July.loss.plot<-ggplot(data=July2018_mean, aes(x=Days, y=mean, group = Treatment, color=Treatment)) +
   geom_errorbar(aes(ymin=mean-se, ymax=mean+se),
                 width=0.1, show.legend = F)+
-  geom_point(aes(color=Treatment), size=4, show.legend = T)+
   geom_line(aes(color=Treatment), linetype=1, show.legend = F)+
+    geom_point(aes(color=Treatment), size=4, show.legend = T)+
   scale_color_manual(values=c("blue", "navy","orange","magenta"))+
   xlab("") + #Label the X Axis
-  #ylim(0, 11) + #set Y limits
+  ylim(0, 1) + #set Y limits
+  xlim(0, 20) + #set Y limits
+
   theme_bw() + #Set the background color
   theme(axis.line = element_line(color = 'black'), #Set the axes color
         axis.title=element_text(size=14,face="bold"), #Set axis format
@@ -218,8 +232,8 @@ July.loss.plot<-ggplot(data=July2018_mean, aes(x=Days, y=mean, group = Treatment
         panel.grid.minor = element_blank(),
         panel.background = element_rect(colour = "black", size=1))+
         theme(aspect.ratio=1)+
-  ylab("Percent alive") +
-  ggtitle("July 2018 Mortality")+
+  ylab("Larval survivorship (%)") +
+  ggtitle("July Mortality")+
   theme(plot.title = element_text(size=20, face = "italic"));July.loss.plot
 ```
 
@@ -236,10 +250,12 @@ Count_D20$Treatment<-as.factor(Count_D20$Treatment)
 
 Count_D20$Treatment <- factor(Count_D20$Treatment, levels=c('Ambient', 'Warm', 'Hot', 'Hotest'))
 
+Count_D20.only<-subset(Count_D20, Days==20)
+
 #june
-june.zoox.plot<-ggplot(Count_D20, aes(x=Treatment, y=Cell.counts, fill=Treatment)) +
+june.zoox.plot<-ggplot(Count_D20.only, aes(x=Treatment, y=Cell.counts, fill=Treatment)) +
   geom_bar(stat="identity")+
-    scale_fill_manual(values=c("blue", "navy","orange","magenta"))+
+  scale_fill_manual(values=c("blue", "pink","red","maroon"))+
     ylim(0, 3000) + #set Y limits
   theme_minimal();june.zoox.plot
 
@@ -257,11 +273,11 @@ Count_D5_mean <- ddply(Count_D5, c( "Treatment"), summarise, #summarize cell cou
 Count_D5_mean
 
 july.zoox.plot<-ggplot(Count_D5_mean, aes(x=Treatment, y=mean, fill=Treatment)) +
-   geom_bar(stat="identity")+
+   geom_bar(stat="identity", show.legend=F)+
   geom_errorbar(aes(ymin=mean-se, ymax=mean+se),
                      width=0.1, show.legend = F)+
   scale_fill_manual(values=c("blue", "navy","orange","magenta"))+
-    ylim(0, 3000) + #set Y limits
+    ylim(0, 2000) + #set Y limits
   theme_minimal();july.zoox.plot
 ```
 
